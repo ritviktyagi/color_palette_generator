@@ -41,31 +41,17 @@ function App() {
 
   async function getColors() {
     const colorArr = [];
-    try {
-      const response = await fetch("http://colormind.io/api/", {
-        method: "POST",
-        body: JSON.stringify({
-          model: "default",
-        }),
-      });
-      const data = await response.json();
-      function componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-      }
 
-      function toHex(r, g, b) {
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-      }
-
-      data.result.forEach((e) => {
-        let newHex = toHex(e[0], e[1], e[2]);
-        colorArr.push(newHex);
-      });
-      setColorPalette(colorArr);
-    } catch (error) {
-      console.error(error);
+    function generateRandomColor() {
+      const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+      return `#${randomColor}`;
     }
+
+    for (let i = 0; i < 5; i++) {
+      const randomColor = generateRandomColor();
+      colorArr.push(randomColor);
+    }
+    setColorPalette(colorArr);
   }
 
   const copyToClipboard = (color) => {
